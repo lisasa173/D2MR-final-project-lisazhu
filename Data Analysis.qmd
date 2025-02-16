@@ -1,0 +1,228 @@
+---
+title: "Data Analysis"
+format: html
+---
+
+```{r}
+#| label: load packages
+library(haven)
+library(tidyverse)
+
+```
+
+```{r}
+#| label: import dataset
+#| echo: TRUE
+
+data1 <- read_sav("data1.sav")
+data2 <- read_sav("data2.sav")
+```
+
+```{r}
+#| label: Cleaning 1: recode column names & select needed column for dataset 1
+#| echo: TRUE
+
+view(data1)
+colnames(data1)
+data1_cleaned <- data1 %>% rename (agreeyn = Q22,
+                  name1 = Q2,
+                  email = Q3,
+                  friend_name = Q6,
+                  friend_email = Q7,
+                  SCC1_1 = Q19_1,
+                  SCC1_2 = Q19_2,
+                  SCC1_3 = Q19_3,
+                  SCC1_4 = Q19_4,
+                  SCC1_5 = Q19_5,
+                  SCC1_6 = Q19_6,
+                  SCC1_7 = Q19_7,
+                  SCC1_8 = Q19_8,
+                  SCC1_9 = Q19_9,
+                  SCC1_10 = Q19_10,
+                  reactance_1 = Q18_1,
+                  reactance_2 = Q18_2,
+                  reactance_3 = Q18_3,
+                  reactance_4 = Q18_4,
+                  reactance_5 = Q18_5,
+                  reactance_6 = Q18_6,
+                  reactance_7 = Q18_7,
+                  reactance_8 = Q18_8,
+                  reactance_9 = Q18_9,
+                  reactance_10 = Q18_10,
+                  reactance_11 = Q18_11,
+                  reactance_12 = Q18_12,
+                  reactance_13 = Q18_13,
+                  reactance_14 = Q18_14,
+                  goal_prep = Q20,
+                  goal_decide = Q21,
+                  gender = Q16,
+                  race_white = Q5_1,
+                  race_black = Q5_2,
+                  race_indian = Q5_3,
+                  race_asian = Q5_4,
+                  race_hawaiian = Q5_5,
+                  race_other = Q5_6,
+                  race_other_text = Q5_6_TEXT,
+                  ethnicity = Q3.0,
+                  edu = Q29,
+                  edu_other = Q29_6_TEXT,
+                  major = Q30,
+                  finished1 = Finished) %>%
+  select (agreeyn, name1, email, friend_name, friend_email, SCC1_1, SCC1_2, SCC1_3, SCC1_4, SCC1_5, SCC1_6, SCC1_7, SCC1_8, SCC1_9, SCC1_10, reactance_1, reactance_2, reactance_3, reactance_4, reactance_5, reactance_6, reactance_7, reactance_8, reactance_9, reactance_10, reactance_11, reactance_12, reactance_13, reactance_14, goal_prep, goal_decide, gender, race_white, race_black, race_indian, race_asian, race_hawaiian, race_other, race_other_text, ethnicity, edu, edu_other, major, finished1) %>%
+  filter (agreeyn == 1, finished1 == 1)
+data1$Q7
+data1$Support1
+all.equal(data1$Q7, data1$Support1)
+view (data1_cleaned)
+```
+
+```{r}
+#| label: Cleaning 1: recode column names & select needed column for dataset 2
+#| echo: TRUE
+view(data2)
+#str(data2)
+colnames(data2)
+data2_cleaned <- data2 %>%
+  rename (finished2 = Finished,
+          name2 = Q2,
+          email = Q3,
+          SCC2_1 = Q19_1,
+          SCC2_2 = Q19_2,
+          SCC2_3 = Q19_3,
+          SCC2_4 = Q19_4,
+          SCC2_5 = Q19_5,
+          SCC2_6 = Q19_6,
+          SCC2_7 = Q19_7,
+          SCC2_8 = Q19_8,
+          SCC2_9 = Q19_9,
+          SCC2_10 = Q19_10,
+          neutral_dur = ctrlcondtime_Page_Submit,
+          support_dur = Q17_Page_Submit,
+          reactance_note_1 = Q11_1,
+          reactance_note_2 = Q11_2,
+          reactance_note_3 = Q11_3,
+          reactance_note_4 = Q11_4,
+          self_ver_1 = Q10_1,
+          self_ver_2 = Q10_2,
+          self_ver_3 = Q10_3,
+          emotion_1 = Q12_1,
+          emotion_2 = Q12_2,
+          emotion_3 = Q12_3,
+          emotion_4 = Q12_4,
+          emotion_5 = Q12_5,
+          emotion_6 = Q12_6,
+          emotion_7 = Q12_7,
+          emotion_8 = Q12_8,
+          emotion_9 = Q12_9,
+          emotion_10 = Q12_10,
+          emotion_11 = Q12_11,
+          emotion_12 = Q12_12,
+          emotion_13 = Q12_13,
+          emotion_14 = Q12_14,
+          emotion_15 = Q12_15,
+          emotion_16 = Q12_16,
+          emotion_17 = Q12_17,
+          emotion_18 = Q12_18,
+          emotion_19 = Q12_19,
+          emotion_20 = Q12_20,
+          emotion_21 = Q12_21,
+          emotion_22 = Q12_22,
+          emotion_23 = Q12_23,
+          emotion_24 = Q12_24,
+          emotion_25 = Q12_25,
+          emotion_26 = Q12_26,
+          goal_eff_1 = Q14_1,
+          goal_eff_2 = Q14_2,
+          goal_eff_3 = Q14_3,
+          goal_eff_4 = Q14_4,
+          continuity_1 = Q15_1,
+          continuity_2 = Q15_2,
+          continuity_3 = Q15_3,
+          continuity_4 = Q15_4,
+          ac_1 = Q13_1,
+          ac_2 = Q13_2,
+          ac_3 = Q13_3,
+          ac_4 = Q13_4,
+          ac_5 = Q13_5,
+          ac_6 = Q13_6,
+          goal_gen_tips = Q16_1,
+          goal_vir_tips = Q16_2,
+          goal_eg_qns = Q16_3,
+          goal_diff_qns = Q16_4,
+          gen_tips_dur = Q19_Page_Submit,
+          vir_tips_dur = Q20_Page_Submit,
+          eg_qns_dur = Q21_Page_Submit,
+          diff_qns_dur = Q22_Page_Submit,
+          goal_mot = Q33,
+          goal_conf = Q34,
+          goal_value = Q35,
+          disruptions_yn = Q70) %>%
+  select (finished2, name2, email, SCC2_1, SCC2_2, SCC2_3, SCC2_4, SCC2_5, SCC2_6, SCC2_7, SCC2_8, SCC2_9, SCC2_10, neutral_dur, support_dur, reactance_note_1, reactance_note_2, reactance_note_3, reactance_note_4, self_ver_1, self_ver_2, self_ver_3, emotion_1, emotion_2, emotion_3, emotion_4, emotion_5, emotion_6, emotion_7, emotion_8, emotion_9, emotion_10, emotion_11, emotion_12, emotion_13, emotion_14, emotion_15, emotion_16, emotion_17, emotion_18, emotion_19, emotion_20, emotion_21, emotion_22, emotion_23, emotion_24, emotion_25, emotion_26, goal_eff_1, goal_eff_2, goal_eff_3, goal_eff_4, continuity_1, continuity_2, continuity_3, continuity_4, ac_1, ac_2, ac_3, ac_4, ac_5, ac_6, goal_gen_tips, goal_vir_tips, goal_eg_qns, goal_diff_qns, gen_tips_dur, vir_tips_dur, eg_qns_dur, diff_qns_dur, goal_mot, goal_conf, goal_value, disruptions_yn, neutral, support) %>% filter (finished2 == 1, disruptions_yn == 1)
+view (data2_cleaned)
+colnames(data2)
+```
+
+```{r}
+#| label: Cleaning 2: Cleaning data3, merged from data2 & data1
+#| echo: TRUE
+
+data3 <- full_join (data1_cleaned, data2_cleaned, by = "email")
+data3_1 <- data3 %>% filter (finished1 == 1) %>% filter (finished2 == 1)
+
+#First, mean-center & bin SCC. There are two measures of self-concept clarity. I am taking the self-concept clarity in survey 2, when the dependent variable of goal is measured. 
+data3_cleaned <- data3_1 %>% select (-SCC1_1, -SCC1_2, -SCC1_3, -SCC1_4, -SCC1_5, -SCC1_6, -SCC1_7, -SCC1_8, -SCC1_9, -SCC1_10) %>%
+  mutate (SCC_1r = 0-SCC2_1, SCC_2r = 0 - SCC2_2, SCC_3r = 0 - SCC2_3, SCC_4r = 0 - SCC2_4, SCC_5r = 0 - SCC2_5, SCC_7r = 0 - SCC2_7, SCC_8r = 0 - SCC2_8, SCC_9r = 0 - SCC2_9, SCC_10r = 0 - SCC2_10) %>% #reverse code several SCC items
+  rename (SCC_6 = SCC2_6) %>% 
+  mutate (SCC = SCC_1r + SCC_2r + SCC_3r + SCC_4r + SCC_5r + SCC_6 + SCC_7r + SCC_8r + SCC_9r + SCC_10r) %>% 
+  select (-SCC2_1, -SCC2_2, -SCC2_3, -SCC2_4, -SCC2_5, -SCC2_7, -SCC2_8, -SCC2_9, -SCC2_10, -SCC_1r, -SCC_2r, -SCC_3r, -SCC_4r, -SCC_5r, -SCC_6, -SCC_7r, -SCC_8r, -SCC_9r, -SCC_10r) %>% #maintain SCC column only
+  mutate (SCC_centered = scale(SCC, center = TRUE, scale = FALSE)) %>% #mean-center SCC
+  mutate (SCC_bin = ifelse(SCC_centered >= mean (SCC_centered), "high", "low"))  %>% # bin SCC
+  select (- finished1, - finished2) %>%
+#Second, differentiate the support & no support condition. Those who did not receive a neutral message were assigned to the support condition. Those assigned into the neutral condition saw both support & neutral message. The latter just saw the support message at the end of the survey.
+  mutate (cond = ifelse (is.na(neutral_dur), "Support", "Neutral")) %>%
+# Trait reactance in study 1
+  mutate (trait_reactance = (reactance_1 + reactance_2 + reactance_3 + reactance_4 + reactance_5 + reactance_6 + reactance_7 + reactance_8 + reactance_9 + reactance_10 + reactance_11 + reactance_12 + reactance_13 + reactance_14)/14) %>% 
+  mutate (trait_reactance = round (trait_reactance, 3)) %>%
+#Third, clean mediators: 1) reactance (higher scores: higher R), 2) self-verification, 3) modified differential emotions scale, 4) self-efficiency, 5) self-continuity, & 6) action crisis.
+  mutate (reactance_note = (reactance_note_1 + reactance_note_2 + reactance_note_3 + reactance_note_4)/4) %>%
+#Sel-verification
+  mutate (self_ver = (self_ver_1 + self_ver_2 + self_ver_3)/3) %>%
+#(Subject to change) For now, I code positive & negative emotions
+  mutate (emo_pos = emotion_1 + emotion_4 + emotion_9 + emotion_10 + emotion_13 + emotion_14 + emotion_15 + emotion_16 + emotion_17 + emotion_18 + emotion_19 + emotion_21 + emotion_24) %>%
+  mutate (emo_neg = emotion_2 + emotion_3 + emotion_5 + emotion_6 + emotion_7 + emotion_8 + emotion_11 + emotion_12 + emotion_20 + emotion_22 + emotion_23 + emotion_25 + emotion_26) %>%
+#self-efficiency
+  mutate (eff = (goal_eff_1 + goal_eff_2 + goal_eff_3 + goal_eff_4)/4) %>%
+#self-continuity
+  mutate (continuity = (continuity_1 + continuity_2 + continuity_3 + continuity_4)/4) %>%
+#action crisis
+  mutate (ac = (ac_1 + ac_2 + ac_3 + ac_4 + ac_5 + ac_6)/6) %>% 
+  mutate (action_crisis = round (ac, 3)) %>%
+#Fourth, clean the dependent variable, quantified by choice_qual, duration looking at the message, and goal_striv. (Subject to change) For now, I assume that the DV (goal striving) is created from a composite score of goal motivation, goal confidence & goal value. 
+  mutate (goal_striv = (goal_mot + goal_conf + goal_value)/3) %>%
+  mutate (goal_striv = round (goal_striv, 3)) %>%
+  mutate(goal_gen_tips = replace(goal_gen_tips, is.na(goal_gen_tips), 0)) %>%
+  mutate (goal_vir_tips = replace (goal_vir_tips, is.na(goal_vir_tips), 0)) %>%
+  mutate (goal_eg_qns = replace (goal_eg_qns, is.na (goal_eg_qns), 0)) %>%
+  mutate (goal_diff_qns = replace (goal_diff_qns, is.na (goal_diff_qns), 0)) %>%
+  mutate (sum_choice = goal_gen_tips + goal_vir_tips + goal_eg_qns + goal_diff_qns) %>%
+  mutate (choice_quant = ifelse (sum_choice >=1, "yes", "no")) %>% #That is, if a person chose any option, then this person is quantitatively high in goal pursuit. By comparison, if a person chose nothing (& quit), then this person is low in goal pursuit. 
+  mutate (choice_qual = case_when (goal_diff_qns == 1 | goal_eg_qns == 1 ~ "very high",
+                                   goal_gen_tips == 1 | goal_vir_tips == 1 ~ "high",
+                                   goal_diff_qns == 0 & goal_eg_qns == 0 & goal_gen_tips == 0 & goal_vir_tips == 0 ~ "low")) %>% 
+  select (agreeyn, name1, email, friend_name, friend_email, trait_reactance, goal_prep, goal_decide, gender, race_white, race_black, race_indian, race_asian, race_hawaiian, race_other, race_other_text, ethnicity, edu, major, SCC, SCC_centered, SCC_bin, cond, neutral_dur, support_dur, reactance_note, self_ver, emo_pos, emo_neg, eff, continuity, action_crisis, goal_gen_tips, goal_vir_tips, goal_eg_qns, goal_diff_qns, sum_choice, choice_quant, choice_qual, gen_tips_dur, vir_tips_dur, eg_qns_dur, diff_qns_dur, goal_striv) #I excluded ed_other because all observations were blank.
+
+view (data3_cleaned)
+```
+
+Research questions: 1) the relationship between SCC & goal pursuit; 2) whether support as a moderator changes the strength of this relationship; 3) whether a) reactance (higher scores: higher R), b) self-verification, c) modified differential emotions scale (positive & negative emotions), d) self-efficiency, e) self-continuity, & f) action crisis mediates the relationship between SCC & goal pursuit; and 4) if any of the mediators explain why support (as a mediator) potentially buffers the negative effect of SCC on goal pursuit.
+
+```{r}
+#| label: Data Wrangling
+#| echo: TRUE
+
+#The relationship bewteen SCC (1. continuous; 2. categorical) and Goal Pursuit (1. what they choose: interview difficulty (categorical); 2. the time they spend looking at the interview message they chose in 1 (continuous); 3. goal_striv (continuous), a combined self-report score of confidence, value & motivation.) 
+#Model continuous SCC & goal pursuit measure 1. 
+fit1 <- lm ()
+
+```
+
